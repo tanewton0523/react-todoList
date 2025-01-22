@@ -112,7 +112,7 @@ function ToDoList(){
                                 Delete
                             </button>
                             <button
-                                className="move-button"
+                                className="up-button"
                                 onClick={() => moveTaskUp(index)}
                             >
                                 UP
@@ -123,7 +123,12 @@ function ToDoList(){
                             >
                                 DOWN
                             </button>
-                            <button onClick={() => startEditing(index)}>Edit</button>
+                            <button
+                                className="edit-button" 
+                                onClick={() => startEditing(index)}
+                            >
+                                Edit
+                            </button>
                         </>
                     )}
                 </li>

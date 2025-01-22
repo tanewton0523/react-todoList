@@ -32,11 +32,23 @@ button{
 .delete-button:hover{
   background-color: hsl(10, 98%, 40%);
 }
-.move-button{
+.up-button{
   background-color: hsl(300, 86%, 11%);
 }
-.move-button:hover{
+.up-button:hover{
   background-color: hsl(300, 86%, 24%);
+}
+.down-button{
+  background-color: hsl(300, 86%, 11%);
+}
+.down-button:hover{
+  background-color: hsl(300, 86%, 24%);
+}
+.edit-button{
+  background-color: hsl(138, 84%, 17%);
+}
+.edit-button:hover{
+  background-color: hsl(138, 84%, 27%);
 }
 input[type="text"]{
   font-size: 1.6rem;
