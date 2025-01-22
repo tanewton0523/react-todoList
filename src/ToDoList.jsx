@@ -2,28 +2,33 @@ import React, { useState } from 'react';
 
 function ToDoList(){
 
-    const [tasks, setTasks] = useState(["Eat Breakfast", "Take a Shower", "Walk the Dog"]);
+    const [tasks, setTasks] = useState([
+        { title: "Eat Breakfast", completed: false },
+        { title: "Take a Shower", completed: false },
+        { title: "Walk the Dog", completed: false },
+    ]);
     const [newTask, setNewTask] = useState("");
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [editText, setEditText] = useState("");
 
     function handleInputChange(event){
         setNewTask(event.target.value);
     }
 
-    function addTask(){
-        if(newTask.trim() !== ""){
-            setTasks(t => [newTask, ...t]);
-            setNewTask("");
+    function addTask() {
+        if (newTask.trim() !== "") {
+          setTasks((t) => [{ title: newTask, completed: false }, ...t]);
+          setNewTask("");
         }
     }
+      
 
     function deleteTask(index){
-
         const updatedTasks = tasks.filter((_, i) => i !== index);
         setTasks(updatedTasks);
     }
 
     function moveTaskUp(index){
-
         if(index > 0){
             const updatedTasks = [...tasks];
             [updatedTasks[index], updatedTasks[index - 1]] = [updatedTasks[index - 1], updatedTasks[index]];
@@ -40,9 +45,29 @@ function ToDoList(){
         }
     }
 
+    function toggleComplete(index) {
+        const updatedTasks = tasks.map((task, i) =>
+            i === index ? { ...task, completed: !task.completed } : task
+        );
+        setTasks(updatedTasks);
+    }
+    
+    function startEditing(index) {
+        setEditingIndex(index);
+        setEditText(tasks[index].title);
+    }
+    
+    function saveEdit(index) {
+        const updatedTasks = tasks.map((task, i) =>
+            i === index ? { ...task, title: editText } : task
+        );
+        setTasks(updatedTasks);
+        setEditingIndex(null);
+        setEditText("");
+    }
+
     return(
     <div className="to-do-list">
-        
         <h1>To-Do-List</h1>
 
         <div>
@@ -50,7 +75,8 @@ function ToDoList(){
                 type="text"
                 placeholder="Enter a task..."
                 value={newTask}
-                onChange={handleInputChange}/>
+                onChange={handleInputChange}
+            />
             <button
                 className="add-button"
                 onClick={addTask}>
@@ -59,28 +85,51 @@ function ToDoList(){
         </div>
 
         <ol>
-            {tasks.map((task, index) =>
+            {tasks.map((task, index) => (
                 <li key={index}>
-                    <span className="text">{task}</span>
-                    <button
-                        className="delete-button"
-                        onClick={() => deleteTask(index)}>
-                        Delete
-                    </button>
-                    <button
-                        className="move-button"
-                        onClick={() => moveTaskUp(index)}>
-                        UP
-                    </button>
-                    <button
-                        className="down-button"
-                        onClick={() => moveTaskDown(index)}>
-                        DOWN
-                    </button>
+                    {editingIndex === index ? (
+                        <>
+                            <input
+                                type="text"
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                            />
+                            <button onClick={() => saveEdit(index)}>Save</button>
+                        </>
+                    ) : (
+                        <>
+                            <span className={`text ${task.completed ? "completed" : ""}`}>{task.title}
+                            </span>
+                            <input
+                                type="checkbox"
+                                checked={task.completed}
+                                onChange={() => toggleComplete(index)}
+                            />
+                            <button
+                                className="delete-button"
+                                onClick={() => deleteTask(index)}
+                            >
+                                Delete
+                            </button>
+                            <button
+                                className="move-button"
+                                onClick={() => moveTaskUp(index)}
+                            >
+                                UP
+                            </button>
+                            <button
+                                className="down-button"
+                                onClick={() => moveTaskDown(index)}
+                            >
+                                DOWN
+                            </button>
+                            <button onClick={() => startEditing(index)}>Edit</button>
+                        </>
+                    )}
                 </li>
-            )}
+            ))}            
         </ol>
-
-    </div>);
+    </div>
+);
 }
 export default ToDoList

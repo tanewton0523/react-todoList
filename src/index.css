@@ -67,3 +67,18 @@ li{
   font-size: 1.4rem;
   margin-left: 10px;
 }
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: hsl(192, 98%, 34%); /* Matches your theme */
+  margin-right: 10px;
+  cursor: pointer;
+}
+.editing-input {
+  border-color: hsl(300, 78%, 60%);
+  background-color: hsl(0, 0%, 98%);
+}
+.completed {
+  text-decoration: line-through;
+  color: hsl(0, 0%, 60%);
+}
